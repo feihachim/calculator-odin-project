@@ -162,18 +162,25 @@ const handleOperator = function (inputElement, outputElement, operation) {
 };
 
 const handleUndo = function (outputElement, operation) {
-    if (testLastCharacter(operation.fullOperation, OPERATOR)) {
-        operation.fullOperation = operation.fullOperation.slice(0, -1);
-    }
-    else {
-        if (outputElement.innerHTML.length == 1) {
-            outputElement.innerHTML = '0';
+    if (outputElement.innerHTML != ERROR_MESSAGE && outputElement.innerHTML != OVERLIMIT) {
+        if (testLastCharacter(operation.fullOperation, OPERATOR)) {
+            operation.fullOperation = operation.fullOperation.slice(0, -1);
         }
         else {
-            outputElement.innerHTML = outputElement.innerHTML.slice(0, -1);
+            if (outputElement.innerHTML.length == 1) {
+                outputElement.innerHTML = '0';
+            }
+            else {
+                outputElement.innerHTML = outputElement.innerHTML.slice(0, -1);
+            }
+            operation.fullOperation = operation.fullOperation.slice(0, -1);
         }
-        operation.fullOperation = operation.fullOperation.slice(0, -1);
     }
+    else {
+        outputElement.innerHTML = '0';
+        resetOperation(operation);
+    }
+
 };
 
 const handleClear = function (outputElement, operation) {
